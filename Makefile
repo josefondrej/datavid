@@ -21,3 +21,17 @@ shell:
 
 install-deps:
 	pipenv install
+
+local-build:
+	docker stop datavid19-backend || true; \
+	docker rm datavid19-backend || true; \
+	docker-compose up -d --build backend;
+
+restart:
+	docker pull datavid19/backend:latest; \
+	docker stop datavid19-backend || true; \
+	docker rm datavid19-backend || true; \
+	docker-compose up -d backend;
+
+logs:
+	docker-compose logs --follow backend;
