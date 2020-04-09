@@ -15,6 +15,7 @@ gunicorn = "*"
 sqlalchemy = "*"
 psycopg2-binary = "*"
 flask-sqlalchemy = "*"
+pyaudio = "*"
 
 [requires]
 python_version = "3.7"
