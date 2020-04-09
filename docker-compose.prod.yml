@@ -14,6 +14,7 @@ services:
       - .env.compose
     depends_on:
       - redis
+      - postgres
     networks:
       - datavid19-db-net
 

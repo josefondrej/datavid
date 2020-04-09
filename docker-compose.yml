@@ -9,7 +9,7 @@ services:
       - ./config/redis.conf:/redis.conf
     command: [ "redis-server", "/redis.conf" ]
     networks:
-      - - datavid19-local-db-net
+      - datavid19-local-db-net
   
 
   postgres:
