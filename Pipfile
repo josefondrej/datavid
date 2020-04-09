@@ -12,6 +12,7 @@ requests = "*"
 redis = "*"
 dacite = "*"
 gunicorn = "*"
+sqlalchemy = "*"
 
 [requires]
 python_version = "3.7"
