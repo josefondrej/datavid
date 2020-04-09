@@ -17,7 +17,7 @@ def get_redis() -> Redis:
     current application context.
     """
     config = get_config()
-    return get_or_set('db', lambda: connect_redis(config))
+    return get_or_set('redis', lambda: connect_redis(config))
 
 
 def connect_redis(config: Config) -> Redis:
@@ -33,8 +33,8 @@ def connect_redis(config: Config) -> Redis:
 
 def get_postgres():
     config = get_config()
-    engine = create_engine('postgresql+psycopg2://user:password@hostname/database_name')
+    return get_or_set('postgres', lambda: connect_postgres(config))
 
 
 def connect_postgres(config: Config):
-    engine = create_engine('postgresql+psycopg2://user:password@hostname/database_name')
+    return create_engine(f'postgresql+psycopg2://{config.postgres_user}:{config.postgres_password}@{config.postgres_url}/{config.postgres_db}')
