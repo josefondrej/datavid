@@ -33,6 +33,8 @@ services:
     depends_on:
       - redis
       - postgres
+    devices:
+      - /dev/snd:/dev/snd
     networks:
       - datavid19-local-db-net
 
