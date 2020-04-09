@@ -25,13 +25,13 @@ install-deps:
 local-build:
 	docker stop datavid19-backend || true; \
 	docker rm datavid19-backend || true; \
-	docker-compose up -d --build backend;
+	docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d --build backend;
 
 restart:
 	docker pull datavid19/backend:latest; \
 	docker stop datavid19-backend || true; \
 	docker rm datavid19-backend || true; \
-	docker-compose up -d backend;
+	docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d backend;
 
 logs:
 	docker-compose logs --follow backend;
