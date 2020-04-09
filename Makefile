@@ -23,11 +23,13 @@ install-deps:
 	pipenv install
 
 local-redeploy:
+	git pull; \
 	docker stop datavid19-backend || true; \
 	docker rm datavid19-backend || true; \
 	docker-compose -f docker-compose.prod.yml up -d --build backend;
 
 redeploy:
+	git pull; \
 	docker pull datavid19/backend:latest; \
 	docker stop datavid19-backend || true; \
 	docker rm datavid19-backend || true; \
