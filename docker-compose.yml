@@ -19,8 +19,7 @@ services:
 
   redis:
     image: redis:5.0.8-alpine
-    expose:
-      - 6379
+    container_name: datavid19-redis
     ports:
       - 6379:6379
     volumes:
@@ -28,8 +27,24 @@ services:
     command: [ "redis-server", "/redis.conf" ]
     networks:
       - datavid19-db-net
+  
+
+  postgres:
+    image: postgres:12.2
+    container_name: datavid19-postgres
+    env_file: 
+      - .env.compose
+    ports:
+      - 5432:5432
+    networks:
+      - datavid19-db-net
+    volumes:
+      - datavid19-postgres-vol:/var/lib/postgresql/data/
 
 
 networks:
   datavid19-db-net:
     driver: bridge
+
+volumes:
+  datavid19-postgres-vol:
