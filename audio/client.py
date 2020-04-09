@@ -1,0 +1,36 @@
+import socket
+import pyaudio
+
+# TEST - u sebe 
+
+
+
+
+# Socket
+# HOST = socket.gethostname()
+PORT = 5000
+
+ip = "134.209.241.50"
+
+
+
+
+# Audio
+CHUNK = 1024 * 4
+FORMAT = pyaudio.paInt16
+CHANNELS = 2
+RATE = 44100
+p = pyaudio.PyAudio()
+stream = p.open(format=FORMAT,
+                channels=CHANNELS,
+                rate=RATE,
+                input=True,
+                frames_per_buffer=CHUNK)
+
+print("Recording")
+
+with socket.socket() as client_socket:
+    client_socket.connect((ip, PORT))
+    while True:
+        data = stream.read(CHUNK) 
+        client_socket.send(data)
