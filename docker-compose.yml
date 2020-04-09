@@ -1,0 +1,35 @@
+version: '3.7'
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        - release_version=docker-compose
+    image: datavid19/backend
+    container_name: datavid19-backend
+    ports:
+      - 8080:8080
+    env_file:
+      - .env.compose
+    depends_on:
+      - redis
+    networks:
+      - datavid19-db-net
+
+  redis:
+    image: redis:5.0.8-alpine
+    expose:
+      - 6379
+    ports:
+      - 6379:6379
+    volumes:
+      - ./config/redis.conf:/redis.conf
+    command: [ "redis-server", "/redis.conf" ]
+    networks:
+      - datavid19-db-net
+
+
+networks:
+  datavid19-db-net:
+    driver: bridge
