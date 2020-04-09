@@ -7,12 +7,10 @@ import pyaudio
 
 
 # Socket
-# HOST = socket.gethostname()
+HOST = socket.gethostname()
 PORT = 5000
 
-ip = "134.209.241.50"
-
-
+# ip = "134.209.241.50"
 
 
 # Audio
@@ -30,7 +28,7 @@ stream = p.open(format=FORMAT,
 print("Recording")
 
 with socket.socket() as client_socket:
-    client_socket.connect((ip, PORT))
+    client_socket.connect((HOST, PORT))
     while True:
         data = stream.read(CHUNK) 
         client_socket.send(data)
