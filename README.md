@@ -28,9 +28,21 @@ redeploy:
 
 ## Runtime
 - docker-compose runtime with [prod](docker-compose.prod.yml) yaml
+- used `.env.compose.prod` that is not in the git -> create following
+```bash
+REDIS_URL=
+REDIS_PORT=
+# optional if the redis has auth
+REDIS_USERNAME=
+REDIS_PASSWORD=
+
+POSTGRES_USER=
+POSTGRES_PASSWORD=
+POSTGRES_DB=
+```
 - application is running on the server on the port `8080`
 - application home directory is `/lukasapp/backend`
-
+- postgres running on `5432` opened to outer internet, credentials in the `/lukasapp/backend/.env.compose.prod`
 - deployment server is running on the port `8081`
 - deployment server home directory is `/lukasapp/devops`
 

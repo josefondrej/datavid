@@ -11,7 +11,7 @@ services:
     ports:
       - 8080:8080
     env_file:
-      - .env.compose
+      - .env.compose.prod
     depends_on:
       - redis
       - postgres
@@ -34,9 +34,9 @@ services:
     image: postgres:12.2
     container_name: datavid19-postgres
     env_file: 
-      - .env.compose
-    expose:
-      - 5432
+      - .env.compose.prod
+    ports:
+      - 5432:5432
     networks:
       - datavid19-db-net
     volumes:
