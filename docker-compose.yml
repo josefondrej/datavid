@@ -1,50 +1,33 @@
 version: '3.7'
 services:
-  backend:
-    build:
-      context: .
-      dockerfile: Dockerfile
-      args:
-        - release_version=docker-compose
-    image: datavid19/backend
-    container_name: datavid19-backend
-    ports:
-      - 8080:8080
-    env_file:
-      - .env.compose
-    depends_on:
-      - redis
-    networks:
-      - datavid19-db-net
-
   redis:
     image: redis:5.0.8-alpine
-    container_name: datavid19-redis
+    container_name: datavid19-local-redis
     ports:
       - 6379:6379
     volumes:
       - ./config/redis.conf:/redis.conf
     command: [ "redis-server", "/redis.conf" ]
     networks:
-      - datavid19-db-net
+      - - datavid19-local-db-net
   
 
   postgres:
     image: postgres:12.2
-    container_name: datavid19-postgres
+    container_name: datavid19-local-postgres
     env_file: 
       - .env.compose
     ports:
       - 5432:5432
     networks:
-      - datavid19-db-net
+      - datavid19-local-db-net
     volumes:
-      - datavid19-postgres-vol:/var/lib/postgresql/data/
+      - datavid19-postgres-local-vol:/var/lib/postgresql/data/
 
 
 networks:
-  datavid19-db-net:
+  datavid19-local-db-net:
     driver: bridge
 
 volumes:
-  datavid19-postgres-vol:
+  datavid19-postgres-local-vol:
