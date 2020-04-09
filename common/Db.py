@@ -1,7 +1,7 @@
 import logging
 
 import redis
-
+from flask_sqlalchemy import SQLAlchemy
 from redis import Redis
 from sqlalchemy import create_engine
 
@@ -9,6 +9,8 @@ from common.Config import Config, get_config
 from common.Utils import get_or_set
 
 logger = logging.getLogger(__name__)
+
+db = SQLAlchemy()
 
 
 def get_redis() -> Redis:
@@ -37,4 +39,5 @@ def get_postgres():
 
 
 def connect_postgres(config: Config):
-    return create_engine(f'postgresql+psycopg2://{config.postgres_user}:{config.postgres_password}@{config.postgres_url}/{config.postgres_db}')
+    return create_engine(
+        f'postgresql+psycopg2://{config.postgres_user}:{config.postgres_password}@{config.postgres_url}/{config.postgres_db}')

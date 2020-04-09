@@ -1,5 +1,7 @@
 from typing import Callable
 
+from flask import g
+
 
 def get_or_set(prop: str, factory: Callable):
     """

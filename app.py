@@ -6,6 +6,9 @@ from flask import Flask
 from flask_restx import Api
 from werkzeug.middleware.proxy_fix import ProxyFix
 
+from common.Config import get_config
+from common.Db import db
+from services.PostgresExample import example_api
 from services.StatusApi import status_api
 from services.VersionApi import version_api
 
@@ -29,14 +32,25 @@ authorizations = {
 }
 
 api = Api(app, authorizations=authorizations)
-
 api.add_namespace(version_api, path='/')
 api.add_namespace(status_api, path='/')
+api.add_namespace(example_api)
 
 # Load configuration
-config_file = 'config'
+config_file = 'local_config'
 if importing.find_spec(config_file):
     app.config.from_object(config_file)
+
+with app.app_context():
+    config = get_config()
+
+app.config['SQLALCHEMY_DATABASE_URI'] \
+    = f'postgresql+psycopg2://{config.postgres_user}:{config.postgres_password}@{config.postgres_url}/' \
+      f'{config.postgres_db}'
+
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+db.init_app(app)
 
 # App startup
 if __name__ == '__main__':
