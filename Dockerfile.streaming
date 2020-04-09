@@ -1,9 +1,5 @@
-FROM python:3.7-buster AS base
-RUN apt-get update
-RUN apt-get install portaudio19-dev python-pyaudio python3-pyaudio -y
-
 # ----------- download python dependencies -----------
-FROM base AS install
+FROM lukaswire/python-base AS install
 # install pipenv
 RUN pip install pipenv
 
@@ -15,7 +11,7 @@ RUN pipenv lock -r > requirements.txt
 RUN pip install -r requirements.txt
 
 # ----------------------Final image-------------------
-FROM base AS image
+FROM lukaswire/python-base AS image
 # copy dependencies
 COPY --from=install /usr/local /usr/local
 
@@ -29,5 +25,5 @@ ENV RELEASE_FILE_PATH=/app/release.txt
 RUN echo $release_version > $RELEASE_FILE_PATH
 
 # start app
-EXPOSE 8080
-CMD gunicorn --bind 0.0.0.0:8080 app:app
+EXPOSE 5000
+CMD python audio/server_stream.py

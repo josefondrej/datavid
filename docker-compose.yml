@@ -3,7 +3,7 @@ services:
   backend:
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.backend
       args:
         - release_version=docker-compose
     image: datavid19/backend
@@ -12,6 +12,24 @@ services:
       - 8080:8080
     env_file:
       - .env.compose
+    depends_on:
+      - redis
+      - postgres
+    networks:
+      - datavid19-local-db-net
+
+  audio-stream:
+    build:
+      context: .
+      dockerfile: Dockerfile.streaming
+      args:
+        - release_version=docker-compose
+    image: datavid19/audio-stream
+    container_name: datavid19-audio-stream
+    ports:
+      - 5000:5000
+    env_file:
+      - .env.compose.prod
     depends_on:
       - redis
       - postgres

@@ -31,9 +31,13 @@ local-redeploy:
 redeploy:
 	git pull; \
 	docker pull datavid19/backend:latest; \
+	docker pull datavid19/audio-stream:latest; \
 	docker stop datavid19-backend || true; \
 	docker rm datavid19-backend || true; \
-	docker-compose -f docker-compose.prod.yml up -d backend;
+	docker stop datavid19-audio-stream || true; \
+	docker rm datavid19-audio-stream || true; \
+	docker-compose -f docker-compose.prod.yml up -d backend; \
+	docker-compose -f docker-compose.prod.yml up -d audio-stream;
 
 logs:
 	docker-compose -f docker-compose.prod.yml logs --follow backend;
