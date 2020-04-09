@@ -12,13 +12,15 @@ logger = logging.getLogger(__name__)
 
 @dataclass
 class Config:
-    """
-    Redis configuration
-    """
     redis_url: str
     redis_port: int
     redis_username: Optional[str]
     redis_password: Optional[str]
+
+    postgres_user: str
+    postgres_password: str
+    postgres_db: str
+    postgres_url: str
 
 
 def get_config() -> Config:
@@ -36,7 +38,11 @@ def build_configuration() -> Config:
     config = Config(redis_url=get_prop('REDIS_URL'),
                     redis_port=int(get_prop('REDIS_PORT')),
                     redis_username=get_prop('REDIS_USERNAME', True),
-                    redis_password=get_prop('REDIS_PASSWORD', True))
+                    redis_password=get_prop('REDIS_PASSWORD', True),
+                    postgres_user=get_prop('POSTGRES_USER', True),
+                    postgres_password=get_prop('POSTGRES_PASSWORD', True),
+                    postgres_db=get_prop('POSTGRES_DB', True),
+                    postgres_url=get_prop('POSTGRES_URL', True))
     logger.debug(f'Used configuration: {config}')
     return config
 
