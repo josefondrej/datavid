@@ -1,5 +1,4 @@
 .env.compose.prod
-local_config.py
 .env
 __pycache__
 # Created by https://www.gitignore.io/api/macos,python,jetbrains+all
